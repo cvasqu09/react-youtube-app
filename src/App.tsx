@@ -1,11 +1,28 @@
 import React from 'react';
 import './App.css';
-import styled, { ThemeProvider } from 'styled-components';
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
+import HomeContainer from './features/home/containers/Home';
 
 const theme = {
   mode: 'light',
-  color: 'blue',
+  colors: {
+    primary: '#FF0000',
+    secondary: 'white',
+  },
 };
+
+const GlobalStyle = createGlobalStyle`
+  * {
+    margin:0; 
+    padding:0;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+  }
+`;
 
 const A = styled.a`
   color: ${(props) => props.theme.color};
@@ -14,13 +31,8 @@ const A = styled.a`
 function App(): React.ReactElement {
   return (
     <ThemeProvider theme={theme}>
-      <div>
-        <header className="App-header">
-          <A href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-            Learn React
-          </A>
-        </header>
-      </div>
+      <HomeContainer />
+      <GlobalStyle />
     </ThemeProvider>
   );
 }
