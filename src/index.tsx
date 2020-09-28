@@ -2,11 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { userSlice } from './features/user/userSlice';
+import { Provider } from 'react-redux';
+
+const rootReducer = combineReducers([userSlice.reducer]);
+
+const store = configureStore({
+  reducer: rootReducer,
+});
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   document.getElementById('root'),

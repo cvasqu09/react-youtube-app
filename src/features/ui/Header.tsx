@@ -7,6 +7,7 @@ const H1 = styled.h2`
   background-color: ${(props) => props.theme.colors.primary};
   color: ${(props) => props.theme.colors.secondary};
   padding: 1rem;
+  margin: 0;
 `;
 
 const Header = () => {
