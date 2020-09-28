@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 import styled, { ThemeProvider } from 'styled-components';
 import Header from '../../ui/Header';
 import YearSelector from '../../../common/components/YearSelector';
+import PlaylistItem from '../../../common/components/PlaylistItem';
 
-const HomeContainer = () => {
+const Home = () => {
   return (
     <Fragment>
-      <Header />
       <YearSelector />
+      <PlaylistItem />
     </Fragment>
   );
 };
 
-HomeContainer.propTypes = {};
+Home.propTypes = {};
 
-export default HomeContainer;
+export default Home;

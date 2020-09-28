@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import './App.css';
-import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
-import HomeContainer from './features/home/containers/Home';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import Home from './features/home/containers/Home';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
-import YearSelector from './common/components/YearSelector';
 import GoogleLogin from 'react-google-login';
 import { setAccessToken } from './features/user/userSlice';
+import Login from './features/login/Login';
+import Header from './features/ui/Header';
 
 const theme = {
   mode: 'light',
@@ -32,33 +34,23 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     height: 100%;
     font-family: 'Roboto', sans-serif;
+    background-color: ${theme.colors.darkSecondary};
   }
 `;
 
 function App(): React.ReactElement {
-  const dispatch = useDispatch();
-  const clientId = process.env.REACT_APP_YT_CLIENT_ID || '';
-  console.log(process.env);
-
-  const successfulLogin = (res: any) => {
-    console.log(res);
-    dispatch(setAccessToken(res.accessToken));
-  };
-
-  const onFailedLogin = (res: any) => {
-    console.log('Error logging in', res);
-  };
-
   return (
     <ThemeProvider theme={theme}>
-      <GoogleLogin
-        clientId={clientId}
-        buttonText="Login"
-        onSuccess={successfulLogin}
-        onFailure={onFailedLogin}
-        scope="https://www.googleapis.com/auth/youtube.readonly"
-      />
-      <HomeContainer />
+      <Router>
+        <Header />
+        <Switch>
+          <Route exact path="/" redirect>
+            <Redirect to="/login" />
+          </Route>
+          <Route path="/home" component={Home} />
+          <Route path="/login" component={Login} />
+        </Switch>
+      </Router>
       <GlobalStyle />
     </ThemeProvider>
   );

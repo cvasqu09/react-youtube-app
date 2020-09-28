@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-const H1 = styled.h2`
+const StyledHeader = styled.h2`
   width: 100%;
   background-color: ${(props) => props.theme.colors.primary};
   color: ${(props) => props.theme.colors.secondary};
@@ -10,10 +11,26 @@ const H1 = styled.h2`
   margin: 0;
 `;
 
+const StyledSpan = styled.span`
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 const Header = () => {
-  return <H1>Youtube Year in Review</H1>;
+  const history = useHistory();
+
+  const routeHome = () => {
+    history.push('/home');
+  };
+
+  return (
+    <StyledHeader>
+      <StyledSpan onClick={routeHome}>YouTube Year in Review</StyledSpan>
+    </StyledHeader>
+  );
 };
 
 Header.propTypes = {};
 
-export default Header;
+export default withRouter(Header);
