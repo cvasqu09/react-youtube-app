@@ -9,14 +9,26 @@ import GoogleLogin from 'react-google-login';
 import { setAccessToken } from './features/user/userSlice';
 import Login from './features/login/Login';
 import Header from './features/ui/Header';
+import { createMuiTheme } from '@material-ui/core';
 
-const theme = {
-  mode: 'light',
-  colors: {
-    primary: '#FF0000',
-    secondary: 'white',
-    darkSecondary: '#272121',
-  },
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#FF0000'
+    },
+    secondary: {
+      main: '#272121'
+    }
+  }
+});
+
+  // {
+  // mode: 'light',
+  // colors: {
+  //   primary: '#FF0000',
+  //   secondary: 'white',
+  //   darkSecondary: '#272121',
+  // },
 };
 
 const GlobalStyle = createGlobalStyle`
@@ -34,7 +46,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     height: 100%;
     font-family: 'Roboto', sans-serif;
-    background-color: ${theme.colors.darkSecondary};
+    background-color: ${theme.palette.secondary.main};
   }
 `;
 
