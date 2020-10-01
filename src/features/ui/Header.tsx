@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 const StyledHeader = styled.h2`
   width: 100%;
-  background-color: ${(props) => props.theme.colors.primary};
-  color: ${(props) => props.theme.colors.secondary};
+  background-color: ${(props) => props.theme.palette.primary.light};
+  color: white;
   padding: 1rem;
   margin: 0;
 `;

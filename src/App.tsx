@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import 'semantic-ui-css/semantic.min.css';
 import GoogleLogin from 'react-google-login';
 import { setAccessToken } from './features/user/userSlice';
+import { StylesProvider } from '@material-ui/core/styles';
+
 import Login from './features/login/Login';
 import Header from './features/ui/Header';
 import { createMuiTheme } from '@material-ui/core';
@@ -14,22 +16,16 @@ import { createMuiTheme } from '@material-ui/core';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#FF0000'
+      main: '#FF0000',
     },
     secondary: {
-      main: '#272121'
-    }
-  }
+      main: '#272121',
+    },
+    text: {
+      primary: 'white',
+    },
+  },
 });
-
-  // {
-  // mode: 'light',
-  // colors: {
-  //   primary: '#FF0000',
-  //   secondary: 'white',
-  //   darkSecondary: '#272121',
-  // },
-};
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -52,19 +48,21 @@ const GlobalStyle = createGlobalStyle`
 
 function App(): React.ReactElement {
   return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <Header />
-        <Switch>
-          <Route exact path="/" redirect>
-            <Redirect to="/login" />
-          </Route>
-          <Route path="/home" component={Home} />
-          <Route path="/login" component={Login} />
-        </Switch>
-      </Router>
-      <GlobalStyle />
-    </ThemeProvider>
+    <StylesProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Header />
+          <Switch>
+            <Route exact path="/" redirect>
+              <Redirect to="/login" />
+            </Route>
+            <Route path="/home" component={Home} />
+            <Route path="/login" component={Login} />
+          </Switch>
+        </Router>
+        <GlobalStyle />
+      </ThemeProvider>
+    </StylesProvider>
   );
 }
 
