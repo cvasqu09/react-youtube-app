@@ -1,11 +1,9 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import styled, { ThemeProvider } from 'styled-components';
-import Header from '../../ui/Header';
+import React, { Fragment, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import YearSelector from '../../../common/components/YearSelector';
 import PlaylistItem from '../../../common/components/PlaylistItem';
 import YouTubeAPI from '../../../common/util/YoutubeAPI';
-import { Container } from 'semantic-ui-react';
+import { DateTime } from 'luxon';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -21,14 +19,16 @@ const Home = () => {
     YouTubeAPI.get('/playlistItems')
       .then((res) => {
         console.log('response is', res);
-        const responseItems = res.data[0].items.map((item) => ({
-          publishedAt: item.snippet?.publishedAt,
-          title: item.snippet?.title,
-          description: item.snippet?.description,
-          imageUrl: item.snippet?.thumbnails?.high?.url || item.snippet?.thumbnails?.medium?.url,
-          itemId: item.snippet?.resourceId?.videoId,
-        }));
-        console.log('repsonse items are ', responseItems);
+        const responseItems = res.data[0].items
+          .filter((item) => item.snippet.description !== 'This video is private.')
+          .map((item) => ({
+            publishedAt: DateTime.fromISO(item.snippet?.publishedAt).toLocaleString(DateTime.DATETIME_MED),
+            title: item.snippet?.title,
+            description: item.snippet?.description,
+            imageUrl: item.snippet?.thumbnails?.high?.url || item.snippet?.thumbnails?.medium?.url,
+            itemId: item.snippet?.resourceId?.videoId,
+          }));
+        console.log('response items are ', responseItems);
         setPlaylistItems(responseItems);
       })
       .catch((err) => {

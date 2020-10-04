@@ -12,6 +12,7 @@ const StyledDiv = styled(motion.div)`
 const StyledCard = styled(Card)`
   background-color: ${(props) => props.theme.palette.secondary.light};
   color: ${(props) => props.theme.palette.text.primary};
+  max-width: 34rem;
 `;
 
 const PlaylistItem = (props) => {
@@ -24,21 +25,11 @@ const PlaylistItem = (props) => {
     >
       <StyledCard>
         <CardHeader title={props.playlistItem.title} />
-        <CardMedia height="400" src={props.playlistItem.imageUrl || ''} alt="playlist item image" component="img" />
+        <CardMedia height="260" src={props.playlistItem.imageUrl || ''} alt="playlist item image" component="img" />
         <CardContent>
-          <Typography variant="body2" color="textPrimary">
-            {props.playlistItem.publishedAt}
-          </Typography>
+          <Typography variant="body2">{props.playlistItem.publishedAt}</Typography>
         </CardContent>
       </StyledCard>
-
-      {/*<Card>*/}
-      {/*  <Image src={props.playlistItem.imageUrl} wrapped />*/}
-      {/*  <Card.Content>*/}
-      {/*    <Card.Header>{props.playlistItem.title}</Card.Header>*/}
-      {/*    <Card.Meta>{props.playlistItem.publishedAt}</Card.Meta>*/}
-      {/*  </Card.Content>*/}
-      {/*</Card>*/}
     </StyledDiv>
   );
 };
