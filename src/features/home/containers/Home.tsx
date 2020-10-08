@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import YearSelector from '../../../common/components/YearSelector';
-import PlaylistItem from '../../../common/components/PlaylistItem';
-import YouTubeAPI from '../../../common/util/YoutubeAPI';
+
 import { DateTime } from 'luxon';
+import YouTubeAPI from '../../../services/YoutubeAPI';
+import PlaylistItem from '../../playlist/components/PlaylistItem';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -16,23 +17,14 @@ const Home = () => {
   const [playlistItems, setPlaylistItems] = useState<any[]>([]);
 
   useEffect(() => {
-    YouTubeAPI.get('/playlistItems')
-      .then((res) => {
-        console.log('response is', res);
-        const responseItems = res.data[0].items
-          .filter((item) => item.snippet.description !== 'This video is private.')
-          .map((item) => ({
-            publishedAt: DateTime.fromISO(item.snippet?.publishedAt).toLocaleString(DateTime.DATETIME_MED),
-            title: item.snippet?.title,
-            description: item.snippet?.description,
-            imageUrl: item.snippet?.thumbnails?.high?.url || item.snippet?.thumbnails?.medium?.url,
-            itemId: item.snippet?.resourceId?.videoId,
-          }));
-        console.log('response items are ', responseItems);
-        setPlaylistItems(responseItems);
+    new YouTubeAPI()
+      .getPlaylistItems('PLV2t3EHAClRy01TRIECee90-5LXvEzxFU')
+      .then((playlistItems) => {
+        console.log('playlist item', playlistItems);
+        setPlaylistItems(playlistItems);
       })
       .catch((err) => {
-        console.log('Error while retrieving playlist items', err.toString());
+        console.log('error retrieving items', err);
       });
   }, []);
 
@@ -40,9 +32,9 @@ const Home = () => {
     <Fragment>
       <YearSelector />
       <StyledDiv>
-        {playlistItems.map((item) => (
-          <PlaylistItem playlistItem={item} key={item.itemId} />
-        ))}
+        {playlistItems.map((item) => {
+          return <PlaylistItem playlistItem={item} key={item.videoId} />;
+        })}
       </StyledDiv>
     </Fragment>
   );

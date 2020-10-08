@@ -1,9 +1,9 @@
-import React, { useState, Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-// import { Card, Container, Image } from 'semantic-ui-react';
 import { motion } from 'framer-motion';
-import { Card, CardContent, CardHeader, CardMedia, Typography, withStyles } from '@material-ui/core';
+import { DateTime } from 'luxon';
+import { Card, CardContent, CardHeader, CardMedia, Typography } from '@material-ui/core';
 
 const StyledDiv = styled(motion.div)`
   margin-bottom: 1rem;
@@ -24,10 +24,12 @@ const PlaylistItem = (props) => {
       transition={{ ease: 'easeIn', duration: 0.45 }}
     >
       <StyledCard>
-        <CardHeader title={props.playlistItem.title} />
+        <CardHeader title={props.playlistItem.title} titleTypographyProps={{ variant: 'h6' }} />
         <CardMedia height="260" src={props.playlistItem.imageUrl || ''} alt="playlist item image" component="img" />
         <CardContent>
-          <Typography variant="body2">{props.playlistItem.publishedAt}</Typography>
+          <Typography variant="body1">
+            {DateTime.fromISO(props.playlistItem.publishedAt).toLocaleString(DateTime.DATETIME_MED)}
+          </Typography>
         </CardContent>
       </StyledCard>
     </StyledDiv>

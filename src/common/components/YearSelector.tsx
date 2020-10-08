@@ -18,7 +18,7 @@ const StyledFormControl = styled(FormControl)`
 
 const inputLabelStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.text.primary,
   },
 }));
 

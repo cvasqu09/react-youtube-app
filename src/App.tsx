@@ -3,12 +3,12 @@ import './App.css';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import Home from './features/home/containers/Home';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
-import 'semantic-ui-css/semantic.min.css';
 import { MuiThemeProvider, StylesProvider } from '@material-ui/core/styles';
 
 import Login from './features/login/Login';
 import Header from './features/ui/Header';
 import { createMuiTheme } from '@material-ui/core';
+import PlaylistPage from './features/playlist/containers/PlaylistPage';
 
 const theme = createMuiTheme({
   palette: {
@@ -57,6 +57,7 @@ function App(): React.ReactElement {
               </Route>
               <Route path="/home" component={Home} />
               <Route path="/login" component={Login} />
+              <Route path="/playlists" component={PlaylistPage} />
             </Switch>
           </Router>
           <GlobalStyle />
