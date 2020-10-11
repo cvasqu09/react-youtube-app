@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Playlist, PlaylistItem } from '../features/playlist/playlist.interfaces';
+import { Playlist, PlaylistItem, Video } from '../features/playlist/playlist.interfaces';
 
 const YouTubeAPIInstance = axios.create({
   baseURL: process.env['REACT_APP_YT_API_BASE_URL'],
@@ -49,6 +49,25 @@ export class YouTubeAPI {
         videoId: item.snippet.resourceId.videoId,
         imageUrl: item.snippet.thumbnails.high?.url || item.snippet.thumbnails.medium?.url,
       }));
+  }
+
+  async getVideoInfo(videoIds: string[]): Promise<Video[]> {
+    const res = await this.apiInstance.get('/videos', {
+      params: {
+        id: videoIds.join(','),
+        part: 'snippet',
+        maxResults: this.MAX_RESULTS,
+      },
+    });
+
+    console.log('videos', res);
+
+    return res.data.items.map((item) => ({
+      id: item.id,
+      title: item.snippet.title,
+      channelId: item.snippet.channelId,
+      tags: item.snippet.tags,
+    }));
   }
 }
 

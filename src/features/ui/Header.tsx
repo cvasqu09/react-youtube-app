@@ -4,7 +4,8 @@ import { useHistory, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledHeader = styled.h2`
-  width: 100%;
+  display: flex;
+  justify-content: space-between;
   background-color: ${(props) => props.theme.palette.primary.light};
   color: white;
   padding: 1rem;
@@ -24,9 +25,14 @@ const Header = () => {
     history.push('/home');
   };
 
+  const routeToPlaylists = () => {
+    history.push('/playlists');
+  };
+
   return (
     <StyledHeader>
       <StyledSpan onClick={routeHome}>YouTube Year in Review</StyledSpan>
+      <StyledSpan onClick={routeToPlaylists}>Playlists</StyledSpan>
     </StyledHeader>
   );
 };

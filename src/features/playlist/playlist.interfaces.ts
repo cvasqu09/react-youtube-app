@@ -14,3 +14,10 @@ export interface PlaylistItem {
   videoId: string;
   imageUrl: string;
 }
+
+export interface Video {
+  id: string;
+  title: string;
+  channelId: string;
+  tags: string[];
+}

@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import * as PlaylistInterfaces from '../playlist.interfaces';
 import PropTypes from 'prop-types';
-import PlaylistItem from './PlaylistItem';
+import { useHistory } from 'react-router-dom';
 import { Card, CardContent, CardMedia, Typography } from '@material-ui/core';
 
 const StyledDiv = styled.div`
@@ -10,12 +9,19 @@ const StyledDiv = styled.div`
 `;
 
 const StyledCard = styled(Card)`
-  max-width: fit-content;
+  max-width: 400px;
+  margin: 1rem;
 `;
 
 const Playlist = (props) => {
+  const history = useHistory();
+
+  const navigateToPlaylistPage = (id: string) => {
+    history.push('/playlist');
+  };
+
   return (
-    <StyledCard>
+    <StyledCard onClick={() => navigateToPlaylistPage(props.playlist.id)}>
       <CardContent>
         <Typography>Playlist name: </Typography>
         <Typography color="textSecondary">{props.playlist.title}</Typography>
