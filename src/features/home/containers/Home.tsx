@@ -5,35 +5,32 @@ import YearSelector from '../../../common/components/YearSelector';
 import { DateTime } from 'luxon';
 import YouTubeAPI from '../../../services/YoutubeAPI';
 import PlaylistItem from '../../playlist/components/PlaylistItem';
+import * as PlaylistInterfaces from '../../playlist/playlist.interfaces';
+import Playlist from '../../playlist/components/Playlist';
 
 const StyledDiv = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-flow: row wrap;
   margin: 2rem;
 `;
 
 const Home = () => {
-  const [playlistItems, setPlaylistItems] = useState<any[]>([]);
+  const [playlists, setPlaylists] = useState([] as PlaylistInterfaces.Playlist[]);
 
   useEffect(() => {
-    new YouTubeAPI()
-      .getPlaylistItems('PLV2t3EHAClRy01TRIECee90-5LXvEzxFU')
-      .then((playlistItems) => {
-        console.log('playlist item', playlistItems);
-        setPlaylistItems(playlistItems);
-      })
-      .catch((err) => {
-        console.log('error retrieving items', err);
-      });
+    const api = new YouTubeAPI();
+    api.getPlaylists().then((playlists: PlaylistInterfaces.Playlist[]) => {
+      setPlaylists(playlists);
+      const videoIds = playlists.map((playlist) => playlist.id);
+    });
   }, []);
 
   return (
     <Fragment>
-      <YearSelector />
       <StyledDiv>
-        {playlistItems.map((item) => {
-          return <PlaylistItem playlistItem={item} key={item.videoId} />;
+        {playlists.map((playlist) => {
+          return <Playlist playlist={playlist} key={playlist.id} />;
         })}
       </StyledDiv>
     </Fragment>

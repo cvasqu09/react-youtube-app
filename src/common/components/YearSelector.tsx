@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { FormControl, InputLabel, MenuItem, Select, withStyles } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
+import { DateTime } from 'luxon';
 
 const StyledSelect = styled(Select)`
   color: ${(props) => props.theme.palette.primary.color};
@@ -29,9 +31,9 @@ const YearSelector = (props) => {
     setSelectedYear(event.target.value);
   };
 
-  const yearMenuItems = years.map((year) => (
-    <MenuItem key={year.value} value={year.value}>
-      {year.text}
+  const yearMenuItems = props.years.map((year) => (
+    <MenuItem key={year} value={year}>
+      {year}
     </MenuItem>
   ));
 
@@ -51,9 +53,7 @@ const YearSelector = (props) => {
   );
 };
 
-const years = [
-  { text: 2019, value: 2019 },
-  { text: 2018, value: 2018 },
-];
-
+YearSelector.propTypes = {
+  years: PropTypes.arrayOf(PropTypes.string),
+};
 export default YearSelector;

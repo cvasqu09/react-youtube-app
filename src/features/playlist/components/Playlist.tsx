@@ -10,21 +10,23 @@ const StyledDiv = styled.div`
 
 const StyledCard = styled(Card)`
   max-width: 400px;
-  margin: 1rem;
+  margin: 0.5rem;
 `;
 
 const Playlist = (props) => {
   const history = useHistory();
 
   const navigateToPlaylistPage = (id: string) => {
-    history.push('/playlist');
+    history.push(`/playlist/${id}`);
   };
 
   return (
     <StyledCard onClick={() => navigateToPlaylistPage(props.playlist.id)}>
       <CardContent>
-        <Typography>Playlist name: </Typography>
-        <Typography color="textSecondary">{props.playlist.title}</Typography>
+        <Typography variant="h6">{props.playlist.title}</Typography>
+        <Typography color="textSecondary" variant="body1">
+          Number of videos: {props.playlist.numberOfVideos}
+        </Typography>
       </CardContent>
       <CardMedia height="260" src={props.playlist.imageUrl || ''} alt="playlist thumbnail" component="img" />
     </StyledCard>

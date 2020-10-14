@@ -6,13 +6,17 @@ import { DateTime } from 'luxon';
 import { Card, CardContent, CardHeader, CardMedia, Typography } from '@material-ui/core';
 
 const StyledDiv = styled(motion.div)`
-  margin-bottom: 1rem;
+  max-width: 31rem;
+`;
+
+const StyledHeader = styled(CardHeader)`
+  width: 400px;
 `;
 
 const StyledCard = styled(Card)`
   background-color: ${(props) => props.theme.palette.secondary.light};
   color: ${(props) => props.theme.palette.text.primary};
-  max-width: 34rem;
+  margin: 0.5rem;
 `;
 
 const PlaylistItem = (props) => {
@@ -24,7 +28,7 @@ const PlaylistItem = (props) => {
       transition={{ ease: 'easeIn', duration: 0.45 }}
     >
       <StyledCard>
-        <CardHeader title={props.playlistItem.title} titleTypographyProps={{ variant: 'h6' }} />
+        <StyledHeader title={props.playlistItem.title} titleTypographyProps={{ variant: 'h6' }} />
         <CardMedia height="260" src={props.playlistItem.imageUrl || ''} alt="playlist item image" component="img" />
         <CardContent>
           <Typography variant="body1">
@@ -42,7 +46,7 @@ PlaylistItem.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
     imageUrl: PropTypes.string,
-    itemId: PropTypes.string,
+    id: PropTypes.string,
   }),
 };
 

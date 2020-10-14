@@ -57,7 +57,7 @@ function App(): React.ReactElement {
               </Route>
               <Route path="/home" component={Home} />
               <Route path="/login" component={Login} />
-              <Route path="/playlists" component={PlaylistPage} />
+              <Route path="/playlist/:id" component={PlaylistPage} />
             </Switch>
           </Router>
           <GlobalStyle />
