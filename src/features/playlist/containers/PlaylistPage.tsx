@@ -23,9 +23,14 @@ const StyledPlaylistItem = styled(PlaylistItem)`
 
 const PlaylistPage = (props) => {
   const [videos, setVideos] = useState([] as PlaylistInterfaces.Video[]);
-  const [playlistItems, setPlaylistItems] = useState<any[]>([]);
+  const [playlistItems, setPlaylistItems] = useState<PlaylistInterfaces.PlaylistItem[]>([]);
   const [years, setYears] = useState<string[]>([]);
+  const [selectedYear, setSelectedYear] = useState<string>('');
   const id = useParams();
+
+  const updateYear = (year) => {
+    setSelectedYear(year);
+  };
 
   useEffect(() => {
     const api = new YouTubeAPI();
@@ -47,11 +52,13 @@ const PlaylistPage = (props) => {
 
   return (
     <Fragment>
-      <YearSelector years={years} />
+      <YearSelector years={years} onYearSelected={updateYear} />
       <StyledContainer>
-        {playlistItems.map((playlistItem) => {
-          return <StyledPlaylistItem playlistItem={playlistItem} key={playlistItem.playlistId} />;
-        })}
+        {playlistItems
+          .filter((item) => DateTime.fromISO(item.publishedAt).year.toString() == selectedYear)
+          .map((playlistItem) => {
+            return <StyledPlaylistItem playlistItem={playlistItem} key={playlistItem.videoId} />;
+          })}
       </StyledContainer>
     </Fragment>
   );

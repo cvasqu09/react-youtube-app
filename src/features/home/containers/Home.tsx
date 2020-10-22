@@ -1,12 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import YearSelector from '../../../common/components/YearSelector';
-
-import { DateTime } from 'luxon';
 import YouTubeAPI from '../../../services/YoutubeAPI';
-import PlaylistItem from '../../playlist/components/PlaylistItem';
 import * as PlaylistInterfaces from '../../playlist/playlist.interfaces';
 import Playlist from '../../playlist/components/Playlist';
+import CalendarTimeline from '../../../common/components/CalendarTimeline';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -15,7 +12,7 @@ const StyledDiv = styled.div`
   margin: 2rem;
 `;
 
-const Home = () => {
+const Home = (props) => {
   const [playlists, setPlaylists] = useState([] as PlaylistInterfaces.Playlist[]);
 
   useEffect(() => {
@@ -33,6 +30,7 @@ const Home = () => {
           return <Playlist playlist={playlist} key={playlist.id} />;
         })}
       </StyledDiv>
+      <CalendarTimeline dates={['2017-06-12T02:59:59Z']} />
     </Fragment>
   );
 };

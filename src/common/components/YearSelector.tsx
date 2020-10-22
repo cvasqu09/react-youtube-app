@@ -29,6 +29,7 @@ const YearSelector = (props) => {
 
   const setYear = (event) => {
     setSelectedYear(event.target.value);
+    props.onYearSelected(event.target.value);
   };
 
   const yearMenuItems = props.years.map((year) => (
@@ -55,5 +56,6 @@ const YearSelector = (props) => {
 
 YearSelector.propTypes = {
   years: PropTypes.arrayOf(PropTypes.string),
+  onYearSelected: PropTypes.func,
 };
 export default YearSelector;
