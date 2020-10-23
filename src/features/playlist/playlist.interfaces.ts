@@ -20,4 +20,5 @@ export interface Video {
   title: string;
   channelId: string;
   tags: string[];
+  addedAt: string;
 }

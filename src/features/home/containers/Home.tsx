@@ -4,6 +4,9 @@ import YouTubeAPI from '../../../services/YoutubeAPI';
 import * as PlaylistInterfaces from '../../playlist/playlist.interfaces';
 import Playlist from '../../playlist/components/Playlist';
 import CalendarTimeline from '../../../common/components/CalendarTimeline';
+import YearSelector from '../../../common/components/YearSelector';
+import { DateTime } from 'luxon';
+import _ from 'lodash';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -14,6 +17,7 @@ const StyledDiv = styled.div`
 
 const Home = (props) => {
   const [playlists, setPlaylists] = useState([] as PlaylistInterfaces.Playlist[]);
+  const [playlistsToDisplay, setPlaylistsToDisplay] = useState([] as PlaylistInterfaces.Playlist[]);
 
   useEffect(() => {
     const api = new YouTubeAPI();
@@ -23,14 +27,28 @@ const Home = (props) => {
     });
   }, []);
 
+  const playlistYears = playlists.map((item) => DateTime.fromISO(item.publishedAt).year.toString());
+  const uniqueYears = _.sortedUniq(playlistYears);
+
+  const updatePlaylistsToDisplay = (year) => {
+    console.log('playlists: ', playlists);
+    setPlaylistsToDisplay(
+      playlists.filter((playlist) => DateTime.fromISO(playlist.publishedAt).year.toString() === year),
+    );
+  };
+
   return (
     <Fragment>
-      <StyledDiv>
-        {playlists.map((playlist) => {
-          return <Playlist playlist={playlist} key={playlist.id} />;
-        })}
-      </StyledDiv>
-      <CalendarTimeline dates={['2017-06-12T02:59:59Z']} />
+      <main>
+        <section>
+          <YearSelector years={uniqueYears} onYearSelected={updatePlaylistsToDisplay} />
+        </section>
+        <StyledDiv>
+          {playlistsToDisplay.map((playlist) => {
+            return <Playlist playlist={playlist} key={playlist.id} />;
+          })}
+        </StyledDiv>
+      </main>
     </Fragment>
   );
 };

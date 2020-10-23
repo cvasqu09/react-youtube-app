@@ -51,7 +51,8 @@ export class YouTubeAPI {
       }));
   }
 
-  async getVideoInfo(videoIds: string[]): Promise<Video[]> {
+  async getVideoInfo(playlistItems: PlaylistItem[]): Promise<Video[]> {
+    const videoIds = playlistItems.map((item) => item.videoId);
     const res = await this.apiInstance.get('/videos', {
       params: {
         id: videoIds.join(','),
@@ -67,6 +68,7 @@ export class YouTubeAPI {
       title: item.snippet.title,
       channelId: item.snippet.channelId,
       tags: item.snippet.tags,
+      addedAt: playlistItems.find((playlistItem) => playlistItem.videoId === item.id)?.publishedAt,
     }));
   }
 }
