@@ -6,7 +6,6 @@ export interface Playlist {
   imageUrl: string;
   id: string;
 }
-
 export interface PlaylistItem {
   publishedAt: string;
   title: string;

@@ -10,11 +10,10 @@ import styled from 'styled-components';
 import PlaylistItem from '../components/PlaylistItem';
 import YearSelector from '../../../common/components/YearSelector';
 import CalendarTimeline from '../../../common/components/CalendarTimeline';
-import { Simulate } from 'react-dom/test-utils';
 
 const StyledContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 400px);
   justify-content: center;
   margin: 0 5rem;
 `;
@@ -40,7 +39,7 @@ const PlaylistPage = (props) => {
     videos.map((video) => {
       const videoMonth = DateTime.fromISO(video.addedAt).toFormat('LLL');
       const currentMonthTags = monthTags[videoMonth] || [];
-      updatedTags[videoMonth] = [...currentMonthTags, video.tags];
+      updatedTags[videoMonth] = [...currentMonthTags, ...video.tags];
     });
     setMonthTags(updatedTags);
   };
@@ -100,7 +99,10 @@ const PlaylistPage = (props) => {
               {k}: {monthTags[k]}
             </div>
           ))}
-          {selectedPlaylistItemDates.length > 0 ? <CalendarTimeline dates={selectedPlaylistItemDates} /> : null}
+          <div>here: {JSON.stringify(monthTags)}</div>
+          {selectedPlaylistItemDates.length > 0 ? (
+            <CalendarTimeline dates={selectedPlaylistItemDates} content={monthTags} />
+          ) : null}
         </section>
       </main>
     </Fragment>

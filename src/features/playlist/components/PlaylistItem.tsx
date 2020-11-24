@@ -10,7 +10,10 @@ const StyledDiv = styled(motion.div)`
 `;
 
 const StyledHeader = styled(CardHeader)`
-  width: 400px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
 `;
 
 const StyledCard = styled(Card)`

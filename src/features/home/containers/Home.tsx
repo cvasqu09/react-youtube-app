@@ -7,6 +7,8 @@ import CalendarTimeline from '../../../common/components/CalendarTimeline';
 import YearSelector from '../../../common/components/YearSelector';
 import { DateTime } from 'luxon';
 import _ from 'lodash';
+import { useQuery } from '@apollo/client';
+import { GET_PLAYLISTS } from '../../playlist/queries/playlist.queries';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -16,24 +18,20 @@ const StyledDiv = styled.div`
 `;
 
 const Home = (props) => {
-  const [playlists, setPlaylists] = useState([] as PlaylistInterfaces.Playlist[]);
+  const [uniqueYears, setUniqueYears] = useState([]);
+  const setPlaylists = (data) => {
+    const playlistYears = data.playlists.map((item) => DateTime.fromISO(item.publishedAt).year.toString());
+    console.log('playlist years', playlistYears);
+    setUniqueYears(_.sortedUniq(playlistYears));
+    console.log('unique years', uniqueYears);
+  };
+
   const [playlistsToDisplay, setPlaylistsToDisplay] = useState([] as PlaylistInterfaces.Playlist[]);
-
-  useEffect(() => {
-    const api = new YouTubeAPI();
-    api.getPlaylists().then((playlists: PlaylistInterfaces.Playlist[]) => {
-      setPlaylists(playlists);
-      const videoIds = playlists.map((playlist) => playlist.id);
-    });
-  }, []);
-
-  const playlistYears = playlists.map((item) => DateTime.fromISO(item.publishedAt).year.toString());
-  const uniqueYears = _.sortedUniq(playlistYears);
+  const { data: playlistData } = useQuery(GET_PLAYLISTS, { onCompleted: setPlaylists });
 
   const updatePlaylistsToDisplay = (year) => {
-    console.log('playlists: ', playlists);
     setPlaylistsToDisplay(
-      playlists.filter((playlist) => DateTime.fromISO(playlist.publishedAt).year.toString() === year),
+      playlistData.playlists.filter((playlist) => DateTime.fromISO(playlist.publishedAt).year.toString() === year),
     );
   };
 
