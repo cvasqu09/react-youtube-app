@@ -9,6 +9,13 @@ export const GET_PLAYLISTS = gql`
       description
       numberOfVideos
       imageUrl
+      playlistItems {
+        title
+        description
+        videoId
+        imageUrl
+        publishedAt
+      }
     }
   }
 `;

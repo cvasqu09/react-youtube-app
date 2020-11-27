@@ -21,9 +21,7 @@ const Home = (props) => {
   const [uniqueYears, setUniqueYears] = useState([]);
   const setPlaylists = (data) => {
     const playlistYears = data.playlists.map((item) => DateTime.fromISO(item.publishedAt).year.toString());
-    console.log('playlist years', playlistYears);
     setUniqueYears(_.sortedUniq(playlistYears));
-    console.log('unique years', uniqueYears);
   };
 
   const [playlistsToDisplay, setPlaylistsToDisplay] = useState([] as PlaylistInterfaces.Playlist[]);

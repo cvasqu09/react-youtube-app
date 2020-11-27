@@ -9,7 +9,8 @@ import Login from './features/login/Login';
 import Header from './features/ui/Header';
 import { createMuiTheme } from '@material-ui/core';
 import PlaylistPage from './features/playlist/containers/PlaylistPage';
-import { ApolloClient, ApolloProvider, gql, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloProvider, concat, createHttpLink, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 
 const theme = createMuiTheme({
   palette: {
@@ -46,9 +47,21 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const httpLink = createHttpLink({
+  uri: process.env['REACT_APP_GQL_SERVER_URI'] + '/graphql',
+});
+
+const authLink = setContext((request, previousContext) => ({
+  headers: {
+    ...previousContext.headers,
+    authorization: 'Bearer ' + localStorage.getItem('access-token'),
+  },
+}));
+
 const client = new ApolloClient({
-  uri: 'http://localhost:4201',
+  uri: process.env['REACT_APP_GQL_SERVER_URI'],
   cache: new InMemoryCache(),
+  link: authLink.concat(httpLink),
 });
 
 function App(): React.ReactElement {

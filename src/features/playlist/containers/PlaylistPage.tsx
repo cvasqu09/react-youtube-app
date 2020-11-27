@@ -3,7 +3,7 @@ import YouTubeAPI from '../../../services/YoutubeAPI';
 import * as PlaylistInterfaces from '../playlist.interfaces';
 import _ from 'lodash';
 
-import { useParams } from 'react-router-dom';
+import { useParams, withRouter } from 'react-router-dom';
 import { DateTime } from 'luxon';
 
 import styled from 'styled-components';
@@ -68,14 +68,9 @@ const PlaylistPage = (props) => {
   };
 
   useEffect(() => {
-    const api = new YouTubeAPI();
-    api
-      .getPlaylistItems(id)
-      .then((playlistItems) => setPlaylistYears(playlistItems))
-      .then((playlistItems) => getVideoInfo(playlistItems))
-      .catch((err) => {
-        console.log('error retrieving items', err);
-      });
+    const playlistItems = props.location?.state?.playlistItems || [];
+    setPlaylistYears(playlistItems);
+    getVideoInfo(playlistItems);
   }, []);
 
   const selectedPlaylistItemDates = playlistItems
@@ -109,4 +104,4 @@ const PlaylistPage = (props) => {
   );
 };
 
-export default PlaylistPage;
+export default withRouter(PlaylistPage);

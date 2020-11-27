@@ -15,15 +15,15 @@ import _ from 'lodash';
 import { Chip } from '@material-ui/core';
 import { RandomColorGenerator } from '../../services/RandomColorGenerator';
 
+const StyledChip = styled(Chip)`
+  margin: 0 0.2rem;
+  background-color: ${() => RandomColorGenerator.generate()};
+`;
+
 const CalendarTimeline = (props) => {
   const allMonths = props.dates.map((date) => DateTime.fromISO(date).toFormat('LLL'));
   const uniqueMonths: string[] = _.uniq(allMonths);
   const lastMonth = uniqueMonths[uniqueMonths.length - 1];
-
-  const StyledChip = styled(Chip)`
-    margin: 0 0.2rem;
-    background-color: ${() => RandomColorGenerator.generate()};
-  `;
 
   return (
     <Timeline align="right">

@@ -17,7 +17,10 @@ const Playlist = (props) => {
   const history = useHistory();
 
   const navigateToPlaylistPage = (id: string) => {
-    history.push(`/playlist/${id}`);
+    history.push({
+      pathname: `/playlist/${id}`,
+      state: { playlistItems: props.playlist.playlistItems },
+    });
   };
 
   return (
@@ -43,5 +46,6 @@ Playlist.propTypes = {
     numberOfVideos: PropTypes.number,
     imageUrl: PropTypes.string,
     id: PropTypes.string,
+    playlistItems: PropTypes.any,
   }),
 };
