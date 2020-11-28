@@ -9,7 +9,6 @@ const Login = (props) => {
   const clientId = process.env.REACT_APP_YT_CLIENT_ID || '';
 
   const successfulLogin = (res: any) => {
-    console.log(res);
     dispatch(setAccessToken(res.accessToken));
   };
 

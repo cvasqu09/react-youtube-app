@@ -1,15 +1,16 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import YouTubeAPI from '../../../services/YoutubeAPI';
 import * as PlaylistInterfaces from '../playlist.interfaces';
 import _ from 'lodash';
 
-import { useParams, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { DateTime } from 'luxon';
 
 import styled from 'styled-components';
 import PlaylistItem from '../components/PlaylistItem';
 import YearSelector from '../../../common/components/YearSelector';
 import CalendarTimeline from '../../../common/components/CalendarTimeline';
+import { useQuery } from '@apollo/client';
+import { GET_VIDEO_INFO } from '../queries/playlist.queries';
 
 const StyledContainer = styled.div`
   display: grid;
@@ -26,9 +27,19 @@ const PlaylistPage = (props) => {
   const [playlistItems, setPlaylistItems] = useState<PlaylistInterfaces.PlaylistItem[]>([]);
   const [years, setYears] = useState<string[]>([]);
   const [selectedYear, setSelectedYear] = useState<string>('');
-  const [videos, setVideos] = useState<PlaylistInterfaces.Video[]>([]);
   const [monthTags, setMonthTags] = useState<any>({});
-  const id = useParams();
+
+  const setVideos = () => {
+    const { videos } = videoInfo;
+    updateMonthTags(videos);
+  };
+
+  const { data: videoInfo } = useQuery(GET_VIDEO_INFO, {
+    variables: {
+      videoIds: props.location?.state?.playlistItems.map((item) => item.videoId) || [],
+    },
+    onCompleted: setVideos,
+  });
 
   const updateYear = (year) => {
     setSelectedYear(year);
@@ -36,27 +47,15 @@ const PlaylistPage = (props) => {
 
   const updateMonthTags = (videos: PlaylistInterfaces.Video[]) => {
     const updatedTags = {};
-    videos.map((video) => {
-      const videoMonth = DateTime.fromISO(video.addedAt).toFormat('LLL');
+    console.log(videos);
+    videos.map((video, index) => {
+      // Determine month based on when it was added to the playlist
+      const videoMonth = DateTime.fromISO(playlistItems[index].publishedAt).toFormat('LLL');
       const currentMonthTags = monthTags[videoMonth] || [];
-      updatedTags[videoMonth] = [...currentMonthTags, ...video.tags];
+      const videoTags = video.tags || [];
+      updatedTags[videoMonth] = [...currentMonthTags, ...videoTags];
     });
     setMonthTags(updatedTags);
-  };
-
-  const getVideoInfo = (playlistItems) => {
-    const api = new YouTubeAPI();
-    api
-      .getVideoInfo(playlistItems)
-      .then((apiVideos) => {
-        console.log('api videos', apiVideos);
-        setVideos(apiVideos);
-        updateMonthTags(apiVideos);
-        return playlistItems;
-      })
-      .catch((err) => {
-        console.log('error retrieving videos', err);
-      });
   };
 
   const setPlaylistYears = (playlistItems: PlaylistInterfaces.PlaylistItem[]) => {
@@ -70,7 +69,6 @@ const PlaylistPage = (props) => {
   useEffect(() => {
     const playlistItems = props.location?.state?.playlistItems || [];
     setPlaylistYears(playlistItems);
-    getVideoInfo(playlistItems);
   }, []);
 
   const selectedPlaylistItemDates = playlistItems
@@ -89,12 +87,6 @@ const PlaylistPage = (props) => {
             })}
         </StyledContainer>
         <section>
-          {Object.keys(monthTags).map((k) => (
-            <div key={k}>
-              {k}: {monthTags[k]}
-            </div>
-          ))}
-          <div>here: {JSON.stringify(monthTags)}</div>
           {selectedPlaylistItemDates.length > 0 ? (
             <CalendarTimeline dates={selectedPlaylistItemDates} content={monthTags} />
           ) : null}

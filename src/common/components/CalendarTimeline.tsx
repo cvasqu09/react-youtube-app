@@ -20,6 +20,10 @@ const StyledChip = styled(Chip)`
   background-color: ${() => RandomColorGenerator.generate()};
 `;
 
+const StyledTimelineContent = styled(TimelineContent)`
+  flex: 0;
+`;
+
 const CalendarTimeline = (props) => {
   const allMonths = props.dates.map((date) => DateTime.fromISO(date).toFormat('LLL'));
   const uniqueMonths: string[] = _.uniq(allMonths);
@@ -40,9 +44,9 @@ const CalendarTimeline = (props) => {
             <TimelineDot color="primary" />
             <TimelineConnector />
           </TimelineSeparator>
-          <TimelineContent>
+          <StyledTimelineContent>
             <span>{month}</span>
-          </TimelineContent>
+          </StyledTimelineContent>
         </TimelineItem>
       ))}
       <TimelineItem key={lastMonth}>
@@ -54,9 +58,9 @@ const CalendarTimeline = (props) => {
           </div>
         </TimelineOppositeContent>
         <TimelineDot color="primary" />
-        <TimelineContent>
+        <StyledTimelineContent>
           <span>{lastMonth}</span>
-        </TimelineContent>
+        </StyledTimelineContent>
       </TimelineItem>
     </Timeline>
   );

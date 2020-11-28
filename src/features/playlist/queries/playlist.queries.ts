@@ -19,3 +19,14 @@ export const GET_PLAYLISTS = gql`
     }
   }
 `;
+
+export const GET_VIDEO_INFO = gql`
+  query getVideoInfo($videoIds: [String!]!) {
+    videos(videoIds: $videoIds) {
+      id
+      title
+      channelId
+      tags
+    }
+  }
+`;

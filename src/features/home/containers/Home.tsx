@@ -1,9 +1,7 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import styled from 'styled-components';
-import YouTubeAPI from '../../../services/YoutubeAPI';
 import * as PlaylistInterfaces from '../../playlist/playlist.interfaces';
 import Playlist from '../../playlist/components/Playlist';
-import CalendarTimeline from '../../../common/components/CalendarTimeline';
 import YearSelector from '../../../common/components/YearSelector';
 import { DateTime } from 'luxon';
 import _ from 'lodash';

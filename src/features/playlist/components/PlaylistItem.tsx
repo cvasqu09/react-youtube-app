@@ -23,7 +23,6 @@ const StyledCard = styled(Card)`
 `;
 
 const PlaylistItem = (props) => {
-  console.log(props.playlistItem.imageUrl);
   return (
     <StyledDiv
       initial={{ y: 100, opacity: 0 }}
