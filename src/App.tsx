@@ -45,6 +45,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Roboto', sans-serif;
     background-color: ${theme.palette.secondary.main};
   }
+  
+  body > #root {
+    height: 100vh;
+  }
 `;
 
 const httpLink = createHttpLink({

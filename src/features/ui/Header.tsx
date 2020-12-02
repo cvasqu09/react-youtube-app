@@ -12,7 +12,13 @@ const StyledHeader = styled.h2`
   margin: 0;
 `;
 
-const StyledSpan = styled.span`
+const StyledNav = styled.nav`
+  > *:not(:last-child) {
+    margin-right: 1rem;
+  }
+`;
+
+const StyledNavLink = styled.a`
   :hover {
     cursor: pointer;
   }
@@ -29,10 +35,18 @@ const Header = () => {
     history.push('/playlists');
   };
 
+  const routeToLogin = () => {
+    history.push('/login');
+  };
+
   return (
     <StyledHeader>
-      <StyledSpan onClick={routeHome}>YouTube Year in Review</StyledSpan>
-      <StyledSpan onClick={routeToPlaylists}>Playlists</StyledSpan>
+      <StyledNavLink onClick={routeHome}>YouTube Year in Review</StyledNavLink>
+      <StyledNav>
+        <StyledNavLink onClick={routeHome}>Home</StyledNavLink>
+        <StyledNavLink onClick={routeToPlaylists}>Playlists</StyledNavLink>
+        <StyledNavLink onClick={routeToLogin}>Login</StyledNavLink>
+      </StyledNav>
     </StyledHeader>
   );
 };
