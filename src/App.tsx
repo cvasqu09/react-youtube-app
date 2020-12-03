@@ -11,6 +11,7 @@ import { createMuiTheme } from '@material-ui/core';
 import PlaylistPage from './features/playlist/containers/PlaylistPage';
 import { ApolloClient, ApolloProvider, concat, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import PlaylistsPage from './features/playlist/containers/PlaylistsPage';
 
 const theme = createMuiTheme({
   palette: {
@@ -46,8 +47,8 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${theme.palette.secondary.main};
   }
   
-  body > #root {
-    height: 100vh;
+  #root {
+    height: 100%;
   }
 `;
 
@@ -82,6 +83,7 @@ function App(): React.ReactElement {
                 </Route>
                 <Route path="/home" component={Home} />
                 <Route path="/login" component={Login} />
+                <Route path="/playlists" component={PlaylistsPage} />
                 <Route path="/playlist/:id" component={PlaylistPage} />
               </Switch>
             </Router>

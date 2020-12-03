@@ -1,48 +1,37 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
-import * as PlaylistInterfaces from '../../playlist/playlist.interfaces';
-import Playlist from '../../playlist/components/Playlist';
-import YearSelector from '../../../common/components/YearSelector';
-import { DateTime } from 'luxon';
-import _ from 'lodash';
-import { useQuery } from '@apollo/client';
-import { GET_PLAYLISTS } from '../../playlist/queries/playlist.queries';
+import { Button } from '@material-ui/core';
+import { ArrowForward } from '@material-ui/icons';
+import { useHistory } from 'react-router-dom';
 
-const StyledDiv = styled.div`
+const StyledMain = styled.main`
   display: flex;
+  height: 100%;
+  flex-direction: column;
   justify-content: center;
-  flex-flow: row wrap;
-  margin: 2rem;
+  align-items: center;
+`;
+
+const StyledHeader = styled.h3`
+  font-weight: normal;
+  margin-bottom: 1rem;
 `;
 
 const Home = (props) => {
-  const [uniqueYears, setUniqueYears] = useState([]);
-  const setPlaylists = (data) => {
-    const playlistYears = data.playlists.map((item) => DateTime.fromISO(item.publishedAt).year.toString());
-    setUniqueYears(_.sortedUniq(playlistYears));
-  };
+  const history = useHistory();
 
-  const [playlistsToDisplay, setPlaylistsToDisplay] = useState([] as PlaylistInterfaces.Playlist[]);
-  const { data: playlistData } = useQuery(GET_PLAYLISTS, { onCompleted: setPlaylists });
-
-  const updatePlaylistsToDisplay = (year) => {
-    setPlaylistsToDisplay(
-      playlistData.playlists.filter((playlist) => DateTime.fromISO(playlist.publishedAt).year.toString() === year),
-    );
+  const navToPlaylists = () => {
+    history.push('/playlists');
   };
 
   return (
     <Fragment>
-      <main>
-        <section>
-          <YearSelector years={uniqueYears} onYearSelected={updatePlaylistsToDisplay} />
-        </section>
-        <StyledDiv>
-          {playlistsToDisplay.map((playlist) => {
-            return <Playlist playlist={playlist} key={playlist.id} />;
-          })}
-        </StyledDiv>
-      </main>
+      <StyledMain>
+        <StyledHeader>Welcome to a look into the content you were looking at over the years!</StyledHeader>
+        <Button variant="contained" color="primary" endIcon={<ArrowForward />} onClick={navToPlaylists}>
+          Go
+        </Button>
+      </StyledMain>
     </Fragment>
   );
 };

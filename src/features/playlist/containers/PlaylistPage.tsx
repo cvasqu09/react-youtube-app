@@ -62,7 +62,9 @@ const PlaylistPage = (props) => {
     setPlaylistItems(playlistItems);
 
     const playlistYears = playlistItems.map((item) => DateTime.fromISO(item.publishedAt).year.toString());
-    setYears(_.sortedUniq(playlistYears).reverse());
+    const orderedYears = _.sortedUniq(playlistYears).reverse();
+    setYears(orderedYears);
+    setSelectedYear(orderedYears[0]);
     return playlistItems;
   };
 

@@ -49,7 +49,6 @@ export function setAccessToken(token: string) {
 export function clearAccessToken() {
   return async (dispatch) => {
     try {
-      console.log('here');
       await localStorage.setItem('access-token', '');
       dispatch(logoutSuccess());
     } catch (e) {
