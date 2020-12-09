@@ -11,6 +11,7 @@ import YearSelector from '../../../common/components/YearSelector';
 import CalendarTimeline from '../../../common/components/CalendarTimeline';
 import { useQuery } from '@apollo/client';
 import { GET_VIDEO_INFO } from '../queries/playlist.queries';
+import PieBreakdown from '../../../common/components/PieBreakdown';
 
 const StyledContainer = styled.div`
   display: grid;
@@ -92,6 +93,8 @@ const PlaylistPage = (props) => {
           {selectedPlaylistItemDates.length > 0 ? (
             <CalendarTimeline dates={selectedPlaylistItemDates} content={monthTags} />
           ) : null}
+
+          <PieBreakdown tags={monthTags['Nov']} />
         </section>
       </main>
     </Fragment>

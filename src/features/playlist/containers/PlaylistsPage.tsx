@@ -1,10 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import styled from 'styled-components';
-import YearSelector from '../../../common/components/YearSelector';
 import Playlist from '../components/Playlist';
 import { DateTime } from 'luxon';
 import _ from 'lodash';
-import * as PlaylistInterfaces from '../playlist.interfaces';
 import { useQuery } from '@apollo/client';
 import { GET_PLAYLISTS } from '../queries/playlist.queries';
 import { List, ListItem, ListSubheader } from '@material-ui/core';
@@ -23,7 +21,6 @@ const PlaylistsPage = (props) => {
     setUniqueYears(_.sortedUniq(playlistYears));
   };
 
-  const [playlistsToDisplay, setPlaylistsToDisplay] = useState([] as PlaylistInterfaces.Playlist[]);
   const { data: playlistData } = useQuery(GET_PLAYLISTS, { onCompleted: setPlaylists });
 
   const getPlaylistsToDisplayByYear = (year) => {
